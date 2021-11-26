@@ -1,0 +1,84 @@
+<html>
+    <head> 
+
+        <title>Resultado - Compara Arquivos</title>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" ></script>
+        <link  rel="stylesheet" href= {{ css_path }} 
+
+    </head>
+    <body>
+        <section>
+            <!--for demo wrap-->
+            <h1>Componentes Alterados</h1>
+            <div class="tbl-header">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                  <tr>
+                    <th>Cod. Materia</th>
+                    <th>Nome Materia</th>
+                    <th>Carga Horaria Total</th>
+                    <th>Carga Horaria Total - Atualizada</th>
+                    <th>Carga Horaria </th>
+                    <th>Carga Horaria Teorica - Atualizada</th>
+                    <th>Carga Horaria Pratica</th>
+                    <th>Carga Horaria Pratica - Atualizada</th>
+                    <th>Atividade a Distancia</th>
+                    <th>Atividade a Distancia - Atualizada</th>
+                    <th>Atividade Discente</th>
+                    <th>Atividade Discente - Atualizada</th>
+                    <th>Característica</th>
+                    <th>Característica - Atualizada</th>
+                    <th>Nome Dimensao</th>
+                    <th>Nome Dimensao - Atualizada</th>
+                    
+                    
+                    
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div class="tbl-content">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                {% for alt in lista_update %}
+                  <tr>     
+                    <td>{{alt['materia']}}</td>
+                    <td>{{alt['nome materia']}}</td>
+                    {% if "Carga Horaria Total" in alt %}
+                        <td>{{alt['Carga Horaria Total']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Carga Horaria Total - Atualizada" in alt %}
+                        <td>{{alt['Carga Horaria Total - Atualizada']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Carga Horaria Teorica" in alt %}
+                        <td>{{alt['Carga Horaria Teorica']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Carga Horaria Teorica - Atualizada" in alt %}
+                        <td>{{alt['Carga Horaria Teorica - Atualizada']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    <td>-0.36%</td>
+                    <td>-0.36%</td>
+                    <td>-0.36%</td>
+                    <td>-0.36%</td>
+                    <td>-0.36%</td>
+                    <td>-0.36%</td>
+                    <td>-0.36%</td>
+                    <td>-0.36%</td>
+                    <td>-0.36%</td>
+                    <td>-0.36%</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </section>
+    </body>
+</html>
