@@ -56,7 +56,6 @@ def compara_arquivos():
 
     cont_alteracao=0
     alteracoes_arr_dic = []
-    adicoes_arr_dic = []
 
     for i in materiaisDicAnt:
         for j in materiasDicNova:
@@ -79,11 +78,7 @@ def compara_arquivos():
                     if(str(materiaisDicAnt[i]['Nome Dimensao']) != str(materiasDicNova[j]['Nome Dimensao'])):
                         alteracoes_arr_dic[cont_alteracao].update({"Nome Dimensao": str(materiaisDicAnt[i]['Nome Dimensao']), "Nome Dimensao - Atualizada": str(materiasDicNova[j]['Nome Dimensao'])})
                     cont_alteracao += 1
-
-    #verifica inclusão de novas disciplinas
-    listAtualizada = []
-    listAntiga = []
-    novasDisciplinas = []
+                    
     return alteracoes_arr_dic
 
 

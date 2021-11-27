@@ -64,16 +64,57 @@
                     {% else %}
                         <td>     </td>
                     {% endif %}
-                    <td>-0.36%</td>
-                    <td>-0.36%</td>
-                    <td>-0.36%</td>
-                    <td>-0.36%</td>
-                    <td>-0.36%</td>
-                    <td>-0.36%</td>
-                    <td>-0.36%</td>
-                    <td>-0.36%</td>
-                    <td>-0.36%</td>
-                    <td>-0.36%</td>
+                    {% if "Carga Horaria Pratica" in alt %}
+                        <td>{{alt['Carga Horaria Pratica']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Carga Horaria Pratica - Atualizada" in alt %}
+                        <td>{{alt['Carga Horaria Pratica - Atualizada']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Atividade a Distancia" in alt %}
+                        <td>{{alt['Atividade a Distancia']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Atividade a Distancia - Atualizada" in alt %}
+                        <td>{{alt['Atividade a Distancia - Atualizada']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Atividade Discente" in alt %}
+                        <td>{{alt['Atividade Discente']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Atividade Discente - Atualizada" in alt %}
+                        <td>{{alt['Atividade Discente - Atualizada']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Caracteristica" in alt %}
+                        <td>{{alt['Caracteristica']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Caracteristica - Atualizada" in alt %}
+                        <td>{{alt['Caracteristica - Atualizada']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Nome Dimensao" in alt %}
+                        <td>{{alt['Nome Dimensao']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    {% if "Nome Dimensao - Atualizada" in alt %}
+                        <td>{{alt['Nome Dimensao - Atualizada']}}</td>
+                    {% else %}
+                        <td>     </td>
+                    {% endif %}
+                    
                   </tr>
                   {% endfor %}
                 </tbody>
