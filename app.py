@@ -18,7 +18,7 @@ def hello_world():
     css_file = url_for('static', filename='main.css')
     lista = compara_arquivos()
     pprint(lista)
-    return render_template('index.html', css_path = css_file, lista_update= lista )
+    return render_template('index.html', css_path = css_file, lista_update= lista[0], lista_novas = lista[1] )
 
 
 def compara_arquivos():
@@ -56,6 +56,7 @@ def compara_arquivos():
 
     cont_alteracao=0
     alteracoes_arr_dic = []
+    adicoes_arr_dic = []
 
     for i in materiaisDicAnt:
         for j in materiasDicNova:
@@ -78,8 +79,29 @@ def compara_arquivos():
                     if(str(materiaisDicAnt[i]['Nome Dimensao']) != str(materiasDicNova[j]['Nome Dimensao'])):
                         alteracoes_arr_dic[cont_alteracao].update({"Nome Dimensao": str(materiaisDicAnt[i]['Nome Dimensao']), "Nome Dimensao - Atualizada": str(materiasDicNova[j]['Nome Dimensao'])})
                     cont_alteracao += 1
+    
+    #verifica inclusão novas disciplinas 
+    listAtualizada = []
+    listAntiga = []
+    resultado_comparacao = []
+
+    for i in materiasDicNova:
+        listAtualizada.append(materiasDicNova[i]['materia'])
+
+    for j in materiaisDicAnt:
+        listAntiga.append(materiaisDicAnt[j]['materia'])
+
+    for i in listAtualizada:
+        if i not in listAntiga:
+            for j in materiasDicNova:
+                if(i == materiasDicNova[j]['materia']):
+                    adicoes_arr_dic.append(materiasDicNova[j])
+    print("------ novas -------")
+    pprint(adicoes_arr_dic)
+    resultado_comparacao.append(alteracoes_arr_dic)
+    resultado_comparacao.append(adicoes_arr_dic)
                     
-    return alteracoes_arr_dic
+    return resultado_comparacao
 
 
 
