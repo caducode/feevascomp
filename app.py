@@ -16,92 +16,86 @@ app = Flask(__name__)
 @app.route("/")
 def hello_world():
     css_file = url_for('static', filename='main.css')
+    print("entrou metodo compara")
     lista = compara_arquivos()
-    pprint(lista)
-    return render_template('index.html', css_path = css_file, lista_update= lista[0], lista_novas = lista[1] )
+    print("executou metodo de comparação")
+    return render_template('index.html', css_path = css_file, lista_update= lista)
 
 
 def compara_arquivos():
+    pd.set_option('display.max_columns', 4)
     realPathTeams = os.path.realpath("teams_feevale_digital.xlsx")
     realPathAtualizado = os.path.realpath("registro_feevale_digital.xlsx")
     FILE_PATH_NOVO = realPathAtualizado
     FILE_PATH_ANTIGO = realPathTeams 
-    xl = pd.ExcelFile(FILE_PATH_NOVO)
-    x2 = pd.ExcelFile(FILE_PATH_ANTIGO)
+    df = pd.read_excel(FILE_PATH_NOVO, sheet_name='Data1', dtype='str')
+    df2 = pd.read_excel(FILE_PATH_ANTIGO, sheet_name='Cursos' , dtype='str')
 
-    #Carrega a planilha com os dados novos 
-    df = xl.parse('Data1')
     df = df.fillna('')
-    #Carrega a planilha com os dados antigos (atuais)
-    df2 = x2.parse('Cursos')
-    df2.dropna(subset = ['CodMateriaSiae'], inplace=True)
     df2 = df2.fillna('')
-    df2['CodMateriaSiae'] = df2['CodMateriaSiae'].astype(int)
+
+    class LinhaAlterada:
+        cod_curriculo=""
+        nome_curso=""
+        nome_estrutura=""
+        cod_materia=""
+        nome_comp=""
+        ch_total=""
+        ch_total_old=""
+        ch_teorica=""
+        ch_teorica_old=""
+        ch_pratica=""
+        ch_pratica_old=""
+        atividade_dist=""
+        atividade_dist_old=""
+        atividade_disc=""
+        atividade_disc_old=""
+        caracte=""
+        caracte_old=""
+        nome_dimensao=""
+        nome_dimensao_old=""
 
 
-    materiasDicNova= {}
-    materiaisDicAnt = {}
-
-    print(len(df2))
-
-
-    #carrega os dados em um dicionário python, usando numero da linha como indice
-
-    for index, row in df.iterrows():
-        materiasDicNova[index] = {"materia": str(row['CodMateriaSiae']),"Nome Materia":row['NomeMateria'],"Carga Horaria Total": row['CHTOTAL'],"Carga Horaria Teorica": row['CHTeorica'],"Carga Horaria Pratica": row['CHPratica'] , "Atividade a Distancia": row['Atividade à distância'], "Atividade Discente": row['Atividade Discente'], "Caracteristica": row['Caracteristica'], "Nome Dimensao": row['NomeDimensao']}
-
-    for index2, row2 in df2.iterrows():
-        materiaisDicAnt[index2] = {"materia": str(row2['CodMateriaSiae']),"Nome Materia":row2['NomeMateria'], "Carga Horaria Total": row2['CHTOTAL'],"Carga Horaria Teorica": row2['CHTeorica'],"Carga Horaria Pratica": row2['CHPratica'], "Atividade a Distancia": row2['Atividade à distância'], "Atividade Discente": row2['Atividade Discente'], "Caracteristica": row2['Caracteristica'], "Nome Dimensao": row2['NomeDimensao']}
-
-
-    cont_alteracao=0
-    alteracoes_arr_dic = []
-    adicoes_arr_dic = []
-
-    for i in materiaisDicAnt:
-        for j in materiasDicNova:
-            if((materiaisDicAnt[i]['materia']) == (materiasDicNova[j]['materia'])):
-                if((str(materiaisDicAnt[i]['Carga Horaria Total']) != str(materiasDicNova[j]['Carga Horaria Total'])) or (str(materiaisDicAnt[i]['Carga Horaria Teorica']) != str(materiasDicNova[j]['Carga Horaria Teorica'])) or (str(materiaisDicAnt[i]['Carga Horaria Pratica']) != str(materiasDicNova[j]['Carga Horaria Pratica'])) or (str(materiaisDicAnt[i]['Carga Horaria Pratica']) != str(materiasDicNova[j]['Carga Horaria Pratica'])) or (str(materiaisDicAnt[i]['Atividade a Distancia']) != str(materiasDicNova[j]['Atividade a Distancia'])) or (str(materiaisDicAnt[i]['Atividade Discente']) != str(materiasDicNova[j]['Atividade Discente'])) or (str(materiaisDicAnt[i]['Caracteristica']) != str(materiasDicNova[j]['Caracteristica'])) or (str(materiaisDicAnt[i]['Nome Dimensao']) != str(materiasDicNova[j]['Nome Dimensao'])) ):
-                    alteracoes_arr_dic.append({"materia": materiaisDicAnt[i]['materia'],"nome materia": materiaisDicAnt[i]['Nome Materia']})
-                    #verifica em qual coluna ocorreu alteração
-                    if(str(materiaisDicAnt[i]['Carga Horaria Total']) != str(materiasDicNova[j]['Carga Horaria Total'])):
-                        alteracoes_arr_dic[cont_alteracao].update({"Carga Horaria Total": str(materiaisDicAnt[i]['Carga Horaria Total']), "Carga Horaria Total - Atualizada": str(materiasDicNova[j]['Carga Horaria Total'])})
-                    if(str(materiaisDicAnt[i]['Carga Horaria Teorica']) != str(materiasDicNova[j]['Carga Horaria Teorica'])):
-                        alteracoes_arr_dic[cont_alteracao].update({"Carga Horaria Teorica": str(materiaisDicAnt[i]['Carga Horaria Teorica']), "Carga Horaria Teorica - Atualizada": str(materiasDicNova[j]['Carga Horaria Teorica'])})
-                    if(str(materiaisDicAnt[i]['Carga Horaria Pratica']) != str(materiasDicNova[j]['Carga Horaria Pratica'])):
-                        alteracoes_arr_dic[cont_alteracao].update({"Carga Horaria Pratica": str(materiaisDicAnt[i]['Carga Horaria Pratica']), "Carga Horaria Pratica - Atualizada": str(materiasDicNova[j]['Carga Horaria Pratica'])})    
-                    if(str(materiaisDicAnt[i]['Atividade a Distancia']) != str(materiasDicNova[j]['Atividade a Distancia'])):
-                        alteracoes_arr_dic[cont_alteracao].update({"Atividade a Distancia": str(materiaisDicAnt[i]['Atividade a Distancia']), "Atividade a Distancia - Atualizada": str(materiasDicNova[j]['Atividade a Distancia'])})    
-                    if(str(materiaisDicAnt[i]['Atividade Discente']) != str(materiasDicNova[j]['Atividade Discente'])):
-                        alteracoes_arr_dic[cont_alteracao].update({"Atividade Discente": str(materiaisDicAnt[i]['Atividade Discente']), "Atividade Discente - Atualizada": str(materiasDicNova[j]['Atividade Discente'])})
-                    if(str(materiaisDicAnt[i]['Caracteristica']) != str(materiasDicNova[j]['Caracteristica'])):
-                        alteracoes_arr_dic[cont_alteracao].update({"Caracteristica": str(materiaisDicAnt[i]['Caracteristica']), "Caracteristica - Atualizada": str(materiasDicNova[j]['Caracteristica'])})
-                    if(str(materiaisDicAnt[i]['Nome Dimensao']) != str(materiasDicNova[j]['Nome Dimensao'])):
-                        alteracoes_arr_dic[cont_alteracao].update({"Nome Dimensao": str(materiaisDicAnt[i]['Nome Dimensao']), "Nome Dimensao - Atualizada": str(materiasDicNova[j]['Nome Dimensao'])})
-                    cont_alteracao += 1
-    
-    #verifica inclusão novas disciplinas 
-    listAtualizada = []
-    listAntiga = []
-    resultado_comparacao = []
-
-    for i in materiasDicNova:
-        listAtualizada.append(materiasDicNova[i]['materia'])
-
-    for j in materiaisDicAnt:
-        listAntiga.append(materiaisDicAnt[j]['materia'])
-
-    for i in listAtualizada:
-        if i not in listAntiga:
-            for j in materiasDicNova:
-                if(i == materiasDicNova[j]['materia']):
-                    adicoes_arr_dic.append(materiasDicNova[j])
-    print("------ novas -------")
-    pprint(adicoes_arr_dic)
-    resultado_comparacao.append(alteracoes_arr_dic)
-    resultado_comparacao.append(adicoes_arr_dic)
+    antigaListagem = df2[['CodCurriculo', 'NomeCurso', 'NomeEstrutura', 'CodMateriaSiae', 'NomeMateria', 'CHTOTAL', 'CHTeorica', 'CHPratica', 'Atividade à distância', 'Atividade Discente', 'Caracteristica', 'NomeDimensao' ]]
+    novaListagem =  df[['CodCurriculo', 'NomeCurso', 'NomeEstrutura', 'CodMateriaSiae', 'NomeMateria', 'CHTOTAL', 'CHTeorica', 'CHPratica', 'Atividade à distância', 'Atividade Discente', 'Caracteristica', 'NomeDimensao' ]]
+    contador=0
+    data=[]
+    for row in novaListagem.itertuples():
+        for row2 in antigaListagem.itertuples():
+            if((row.CodMateriaSiae == row2.CodMateriaSiae) & (row.NomeCurso == row2.NomeCurso) & (row.CodCurriculo == row2.CodCurriculo) ):
+                if((row.CHTOTAL !=  row2.CHTOTAL ) | (row.CHTeorica != row2.CHTeorica) | (row.CHPratica != row2.CHPratica) | (row._9 != row2._9) | (row._10 != row2._10) | (row.NomeDimensao != row2.NomeDimensao) | (row.Caracteristica != row2.Caracteristica)  ):
                     
-    return resultado_comparacao
+                    objrow = LinhaAlterada()
+                    objrow.cod_curriculo= row.CodCurriculo
+                    objrow.nome_curso= row.NomeCurso
+                    objrow.nome_estrutura = row.NomeEstrutura
+                    objrow.cod_materia = row.CodMateriaSiae
+                    objrow.nome_comp = row.NomeMateria
+                    
+                    if(row.CHTOTAL !=  row2.CHTOTAL ):
+                        objrow.ch_total = row.CHTOTAL 
+                        objrow.ch_total_old = row2.CHTOTAL
+                    if(row.CHTeorica != row2.CHTeorica):
+                        objrow.ch_teorica =  row.CHTeorica
+                        objrow.ch_teorica_old = row2.CHTeorica
+                    if(row.CHPratica != row2.CHPratica):
+                        objrow.ch_pratica = row.CHPratica 
+                        objrow.ch_pratica_old  = row2.CHPratica
+                    if(row._9 != row2._9):
+                        objrow.atividade_dist = row._9 
+                        objrow.atividade_dist_old = row2._9
+                    if(row._10 != row2._10):
+                        objrow.atividade_disc = row._10 
+                        objrow.atividade_disc_old = row2._10
+                    if(row.NomeDimensao != row2.NomeDimensao):
+                        objrow.nome_dimensao =  row.NomeDimensao 
+                        objrow.nome_dimensao_old = row2.NomeDimensao
+                    if(row.Caracteristica != row2.Caracteristica):
+                        objrow.caracte =  row.Caracteristica 
+                        objrow.caracte_old = row2.Caracteristica
+                    
+                    data.append(objrow)
+    return data
 
 
 
