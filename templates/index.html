@@ -105,11 +105,10 @@
             </div>
           </section>
           <br>
-          <!--
-          <section> -->
+          
+          <section>
             <!--for demo wrap-->
-            <!--
-            <h1>Componentes Novos Adicionados</h1>
+            <h1>Componentes Adicionados</h1>
             <div class="tbl-header">
               <table cellpadding="0" cellspacing="0" border="0">
                 <thead>
@@ -117,19 +116,16 @@
                     <th>Cod. Materia</th>
                     <th>Nome Materia</th>
                     <th>Carga Horaria Total</th>
-                    <th>Carga Horaria Total - Atualizada</th>
-                    <th>Carga Horaria </th>
-                    <th>Carga Horaria Teorica - Atualizada</th>
+                    <th>Carga Horaria Teorica</th>
                     <th>Carga Horaria Pratica</th>
-                    <th>Carga Horaria Pratica - Atualizada</th>
                     <th>Atividade a Distancia</th>
-                    <th>Atividade a Distancia - Atualizada</th>
                     <th>Atividade Discente</th>
-                    <th>Atividade Discente - Atualizada</th>
                     <th>Característica</th>
-                    <th>Característica - Atualizada</th>
                     <th>Nome Dimensao</th>
-                    <th>Nome Dimensao - Atualizada</th>
+                    <th>Cod. Curriculo</th>
+                    <th>Nome Curso</th>
+                    <th>Nome Estrutura</th>
+
                     
                     
                     
@@ -140,87 +136,61 @@
             <div class="tbl-content">
               <table cellpadding="0" cellspacing="0" border="0">
                 <tbody>
-                {% for alt in lista_novas %}
+                {% for alt2 in lista_novos %}
                   <tr>     
-                    <td>{{alt['materia']}}</td>
-                    <td>{{alt['Nome Materia']}}</td>
-                    {% if "Carga Horaria Total" in alt %}
-                        <td>{{alt['Carga Horaria Total']}}</td>
+                    <td>{{alt2.cod_materia}}</td>
+                    <td>{{alt2.nome_comp}}</td>
+                    {%if alt2.ch_total  %}
+                        <td>Carga horária Total: <span class="green">{{alt2.ch_total}}</span> 
+                        </td>
+                    {% else %}
+                        <td>   </td>
+                    {%endif %}
+                    {% if alt2.ch_teorica %}
+                        <td>Carga horária Teorica: <span class="green">{{alt2.ch_teorica}}</span> 
+                        </td>
+                    {% else %}
+                        <td>   </td>
+                    {% endif %}
+                    {% if alt2.ch_pratica %}
+                    <td> Carga horária prática: <span class="green">{{alt2.ch_pratica}} </span> 
+                    </td>
+                    {%else %}
+                        <td>  </td>
+                    {% endif %}
+                    {% if alt2.atividade_dist %}
+                        <td> Atividade Avaliativa a Distância: <span class="green"> {{alt2.atividade_dist}} </span>
+                        </td>
+                    {% else %}
+                        <td>   </td>
+                    {% endif %}
+                    {% if alt2.atividade_disc %}
+                        <td>Atividade Discente: <span class="green">{{alt2.atividade_disc}}</span>
+                        </td>
+                    {% else %}
+                        <td>    </td>
+                    {% endif %}
+                    {%if alt2.caracte %}
+                        <td> Característica: <span class="green">{{alt2.caracte}} </span>
+                        </td>
+                    {%else %}
+                        <td>    </td>
+                    {%endif %}
+                    {%if alt2.nome2_dimensao %}              
+                    <td> Nome Dimensão: <span class="green"> {{alt2.nome_dimensao}} </span>
+                    </td>
                     {% else %}
                         <td>     </td>
                     {% endif %}
-                    {% if "Carga Horaria Total - Atualizada" in alt %}
-                        <td>{{alt['Carga Horaria Total - Atualizada']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Carga Horaria Teorica" in alt %}
-                        <td>{{alt['Carga Horaria Teorica']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Carga Horaria Teorica - Atualizada" in alt %}
-                        <td>{{alt['Carga Horaria Teorica - Atualizada']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Carga Horaria Pratica" in alt %}
-                        <td>{{alt['Carga Horaria Pratica']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Carga Horaria Pratica - Atualizada" in alt %}
-                        <td>{{alt['Carga Horaria Pratica - Atualizada']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Atividade a Distancia" in alt %}
-                        <td>{{alt['Atividade a Distancia']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Atividade a Distancia - Atualizada" in alt %}
-                        <td>{{alt['Atividade a Distancia - Atualizada']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Atividade Discente" in alt %}
-                        <td>{{alt['Atividade Discente']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Atividade Discente - Atualizada" in alt %}
-                        <td>{{alt['Atividade Discente - Atualizada']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Caracteristica" in alt %}
-                        <td>{{alt['Caracteristica']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Caracteristica - Atualizada" in alt %}
-                        <td>{{alt['Caracteristica - Atualizada']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Nome Dimensao" in alt %}
-                        <td>{{alt['Nome Dimensao']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    {% if "Nome Dimensao - Atualizada" in alt %}
-                        <td>{{alt['Nome Dimensao - Atualizada']}}</td>
-                    {% else %}
-                        <td>     </td>
-                    {% endif %}
-                    
+                    <td>{{alt2.cod_curriculo}}</td>
+                    <td>{{alt2.nome_curso}}</td>
+                    <td>{{alt2.nome_estrutura}}</td>
                   </tr>
                   {% endfor %}
                 </tbody>
               </table>
             </div>
           </section>
-        -->
+          <br>
     </body>
 </html>

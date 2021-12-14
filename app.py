@@ -19,7 +19,7 @@ def hello_world():
     print("entrou metodo compara")
     lista = compara_arquivos()
     print("executou metodo de comparação")
-    return render_template('index.html', css_path = css_file, lista_update= lista)
+    return render_template('index.html', css_path = css_file, lista_update= lista[0], lista_novos= lista[1])
 
 
 def compara_arquivos():
@@ -54,12 +54,28 @@ def compara_arquivos():
         caracte_old=""
         nome_dimensao=""
         nome_dimensao_old=""
+    
+    class LinhaAdd:
+        cod_curriculo=""
+        nome_curso=""
+        nome_estrutura=""
+        cod_materia=""
+        nome_comp=""
+        ch_total=""
+        ch_teorica=""
+        ch_pratica=""
+        atividade_dist=""
+        atividade_disc=""
+        caracte=""
+        nome_dimensao=""
 
 
     antigaListagem = df2[['CodCurriculo', 'NomeCurso', 'NomeEstrutura', 'CodMateriaSiae', 'NomeMateria', 'CHTOTAL', 'CHTeorica', 'CHPratica', 'Atividade à distância', 'Atividade Discente', 'Caracteristica', 'NomeDimensao' ]]
     novaListagem =  df[['CodCurriculo', 'NomeCurso', 'NomeEstrutura', 'CodMateriaSiae', 'NomeMateria', 'CHTOTAL', 'CHTeorica', 'CHPratica', 'Atividade à distância', 'Atividade Discente', 'Caracteristica', 'NomeDimensao' ]]
     contador=0
     data=[]
+    data2=[]
+    finalList = []
     for row in novaListagem.itertuples():
         for row2 in antigaListagem.itertuples():
             if((row.CodMateriaSiae == row2.CodMateriaSiae) & (row.NomeCurso == row2.NomeCurso) & (row.CodCurriculo == row2.CodCurriculo) ):
@@ -95,7 +111,30 @@ def compara_arquivos():
                         objrow.caracte_old = row2.Caracteristica
                     
                     data.append(objrow)
-    return data
+    finalList.append(data)
+
+    #verifica novas disciplinas:
+    for row3 in novaListagem.itertuples():
+        if(row3.CodMateriaSiae not in list(antigaListagem['CodMateriaSiae'])):
+            objrow2 = LinhaAdd()
+            objrow2.cod_curriculo= row3.CodCurriculo
+            objrow2.nome_curso= row3.NomeCurso
+            objrow2.nome_estrutura = row3.NomeEstrutura
+            objrow2.cod_materia = row3.CodMateriaSiae
+            objrow2.nome_comp = row3.NomeMateria
+            objrow2.ch_total =   row3.CHTOTAL 
+            objrow2.ch_teorica =   row3.CHTeorica  
+            objrow2.ch_pratica =  row3.CHPratica 
+            objrow2.atividade_dist =  row3._9 
+            objrow2.atividade_disc = row3._10 
+            objrow2.nome_dimensao =  row3.NomeDimensao
+            objrow2.caracte = row3.Caracteristica 
+            data2.append(objrow2)
+    finalList.append(data2)
+    
+
+
+    return finalList
 
 
 
