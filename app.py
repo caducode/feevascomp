@@ -1,7 +1,5 @@
 
-from flask import Flask
-from flask import render_template
-from flask import url_for
+from flask import Flask, flash, request, redirect, url_for,render_template
 from posixpath import realpath
 from pprint import pprint
 from numpy import NaN
@@ -9,9 +7,16 @@ import pandas as pd
 import math
 import sys
 import os
+from werkzeug.utils import secure_filename
+
 
 
 app = Flask(__name__)
+SESSION_TYPE = 'redis'
+app.config.from_object(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+UPLOAD_FOLDER = './uploads'
+ALLOWED_EXTENSIONS = {'xlsx'}
 
 @app.route("/")
 def hello_world():
@@ -21,6 +26,27 @@ def hello_world():
     print("executou metodo de comparação")
     return render_template('index.html', css_path = css_file, lista_update= lista[0], lista_novos= lista[1])
 
+@app.route("/file_old", methods=['GET', 'POST'])
+def file_old():
+    if(request.method == 'POST'):
+        print(request.files)
+        if 'file_old' not in request.files:
+            flash('Problema no envio do arquivo')
+            return redirect(request.url)
+        file = request.files['file_old']
+        if file.filename == '':
+            flash('Arquivo não selecionado')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            print('entrou aqui', file.filename)
+            filename = secure_filename(file.filename)
+            file.save('/'.join(['uploads', filename]))
+            return redirect('/')
+    return redirect('/')
+
+def allowed_file(filename):
+    return '.' in filename and \
+            filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
 
 def compara_arquivos():
     pd.set_option('display.max_columns', 4)

@@ -13,6 +13,22 @@
 
     <body>
         <section>
+            <title>Escolher arquivo antigo</title>
+            <h2>Arquivo Antigo</h2>
+            <form method="POST" enctype="multipart/form-data" action="/file_old">
+                <input type="file" name="file_old">
+                <input type="submit" value="Upload arquivo"> 
+            </form>
+        </section>
+        <section>
+            <title>Escolher arquivo novo</title>
+            <h2>Arquivo Novo</h2>
+            <form method="post" enctype="multipart/form-data">
+                <input type="file" name="file_new">
+                <input type="submit" value="Upload arquivo"> 
+            </form>
+        </section>
+        <section>
             <!--for demo wrap-->
             <h1>Componentes Alterados</h1>
             <div class="tbl-header">
